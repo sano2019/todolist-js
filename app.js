@@ -1,21 +1,39 @@
+//jshint esversion: 6
+
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const app = express();
+let items = [];
 
-app.get("/", function(req, res){
-	var today = new Date();
-	var currentDay = today.getDay();
+app.set('view engine', 'ejs');
 
-	if (currentDay == 6 || currentDay == 0) {
-		res.write("<h1>Yay, It is the weekend!</h1>")
-	} else {
-		res.write("<h1>Boo! I have to work :(</h1>")
-	}
+app.use(bodyParser.urlencoded({extended: true}));
 
-	res.sendFile(__dirname + "/index.html");
+app.get("/", function(req, res) {
+  let today = new Date();
+
+  let options = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  };
+
+  let day = today.toLocaleDateString("gb-EN", options);
+
+  res.render('list', {
+    day: day,
+		newListItems: items
+  });
 });
 
-app.listen(3000, function(){
-	console.log("Server started on port 3000")
+app.post("/", function(req, res) {
+	let item = req.body.newItem;
+
+	items.push(item);
+
+	res.redirect("/");
+});
+
+app.listen(3000, function() {
+  console.log("Server started on port 3000")
 });
