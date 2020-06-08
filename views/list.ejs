@@ -1,25 +1,22 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>To Do List</title>
-</head>
-
+<%- include('header'); -%>
 <body>
-  <h1>It's a <%= day %>!</h1>
-  <p>Why are you not working?</p>
+  <div class="box" id="heading">
+    <h1>It's a <%= listTitle %>!</h1>
+  </div>
 
-  <ul>
+  <div class="box">
+
+
     <% for (let i=0; i < newListItems.length; i++) { %>
-    <li> <%= newListItems[i]; %> </li>
+    <div class="item">
+      <input type="checkbox">
+      <p> <%= newListItems[i]; %> </p>
+    </div>
     <% } %>
-  </ul>
+    <form class="item" action="/" method="post">
+      <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+      <button type="submit" name="list" value=<%= listTitle %>>+</button>
+    </form>
 
-  <form class="" action="/" method="post">
-    <input type="text" name="newItem">
-    <button type="submit" name="button">Add</button>
-  </form>
-
-</body>
-
-</html>
+  </div>
+<%- include('footer'); -%>
